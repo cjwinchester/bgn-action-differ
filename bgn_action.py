@@ -49,22 +49,22 @@ def download_latest_xl(updated, link):
         The absolute path to the downloaded file.
     '''
 
-    # format the filename with the date updated
-    filename = f'{updated}-bgn-action-list.xls'
+    # format the filename with the updated date, joined to raw dir
+    filepath = os.path.join('raw', f'{updated}-bgn-action-list.xls')
 
     # if this file doesn't exist already
-    if not os.path.isfile(filename):
+    if not os.path.isfile(filepath):
 
         # fetch the link
         r = requests.get(link)
 
         # and write the contents to file
-        with open(os.path.join('raw', filename), 'wb') as f:
+        with open(filepath, 'wb') as f:
             for block in r.iter_content(1024):
                 f.write(block)
 
     # return absolute path to the file
-    return os.path.abspath(filename)
+    return os.path.abspath(filepath)
 
 
 def diff_latest_and_write():
@@ -85,10 +85,12 @@ def diff_latest_and_write():
     # read latest file into a data frame
     df_latest = pd.read_excel(latest_file)
 
-    # if main CSV file doesn't exist already
+    # if main CSV doesn't exist already
     if not os.path.exists(CSV_FILE):
+
         # write out the latest data frame to file
         df_latest.to_csv(CSV_FILE, index=False)
+
     # if it exists already
     else:
         # read the CSV into a data frame
