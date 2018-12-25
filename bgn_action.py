@@ -73,7 +73,8 @@ def diff_latest_and_write():
        most recent file
     2. Write out a CSV file with the latest unique records
 
-    Returns a list of dictionaries of new records.
+    Returns:
+        A list of dictionaries of new records.
     '''
 
     # get a sorted list of existing Excel files
